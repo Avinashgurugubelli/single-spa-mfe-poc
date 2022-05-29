@@ -1,0 +1,18 @@
+<single-spa-router>
+  
+  <main>
+    <nav>
+      <application name="@react-app/nav-bar"></application>
+    </nav>
+    <route default>
+      <application name="@single-spa/welcome"></application>
+    </route>
+    <route path ="/react">
+      <application name="@react-app/react-app"></application>
+    </route>
+    <route path ="/angular">
+      <application name="@angular-app"></application>
+    </route>
+  </main>
+</single-spa-router>
+  
