@@ -1,0 +1,96 @@
+- Install create-single-spa Globally using the below command
+	npm install -g create-single-spa
+- open a desired dir and the command:
+	E:\Projects\micro-front-end-pocs>create-single-spa
+	? Directory for new project single-spa-ng-react
+	? Select type to generate single-spa root config
+	? Which package manager do you want to use? npm
+	? Will this project use Typescript? Yes
+	? Would you like to use single-spa Layout Engine Yes
+	? Organization name (can use letters, numbers, dash or underscore) app
+
+- Creating applications:
+**************************
+
+Creating react APP:
+---------------------
+E:\Projects\micro-front-end-pocs\single-spa-ng-react>
+command: create-single-spa
+? Directory for new project react-app
+? Select type to generate single-spa application / parcel
+? Which framework do you want to use? react
+? Which package manager do you want to use? npm
+? Will this project use Typescript? No
+? Organization name (can use letters, numbers, dash or underscore) react-app
+? Project name (can use letters, numbers, dash or underscore) react-app
+
+- Build the App:
+	npm run build:webpack (script from package.json)
+- Once the build is successfull go to dist folder and run http server to server the build and static files
+	- To run http server we can use python or node js packages.
+	- To run using node package:
+		- To imstall package: npm install -g http-server
+		- To run HTTP server: http-server -p 3000 --cors
+	
+- Register the react APP:
+-------------------------
+- Open Index.ejs:
+	Location: E:\Projects\micro-front-end-pocs\single-spa-ng-react\src\index.ejs
+- Under system import add the below lines/imports
+	"react": "https://cdn.jsdelivr.net/npm/react@16.13.1/umd/react.production.min.js",
+    "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@16.13.1/umd/react-dom.production.min.js",
+	"@react-app/react-app": "http://localhost:3000/react-app-react-app.js"
+- Now define a route in microfrontend-layout.html
+	<route path ="/react">
+      <application name="@react-app/react-app"></application>
+    </route>
+	
+Creating Angular App:
+---------------------
+command: create-single-spa
+? Directory for new project .[just hit ENTER - automaically creates folder with project name given in below step]
+? Select type to generate single-spa application / parcel
+? Which framework do you want to use? angular
+? Project name (can use letters, numbers, dash or underscore) angular-app
+? Would you like to add Angular routing? Yes
+? Which stylesheet format would you like to use? CSS
+
+The package single-spa-angular@6.3.1 will be installed and executed.
+Would you like to proceed? Yes
+√ Package successfully installed.
+? Does your application use Angular routing? Yes
+? What port should your project run on? 4200
+
+Configure routes in created Angular App:
+----------------------------------------
+Refer: https://single-spa.js.org/docs/ecosystem-angular#configure-routes
+
+- Build solution: use command from the package.json
+- If there is any errors: install packages one more time. npm install package.json
+- Build solution:
+	- npm run build:single-spa:angular-app
+- Once the build is successfull go to dist folder and run http server to server the build and static files
+	- To run http server we can use python or node js packages.
+	- To run using node package:
+		- To imstall package: npm install -g http-server
+		- To run HTTP server: http-server -p 4000 --cors
+		
+- Register Angular APP:
+------------------------
+- Open Index.ejs:
+	Location: E:\Projects\micro-front-end-pocs\single-spa-ng-react\src\index.ejs
+- Under system import add the below lines/imports
+	 "@angular-app": "http://localhost:4000/main.js"
+- And also to run angular app we need the zone.js,so uncomment the below line in index.ejs
+  <script src="https://cdn.jsdelivr.net/npm/zone.js@0.11.3/dist/zone.min.js"></script>
+- Now define a route in microfrontend-layout.html
+	<route path ="/angular">
+      <application name="@angular-app"></application>
+    </route>
+- If u go the link: localhost:9000/angular -> Angular icons won't render -> because of Single spa content security policy
+	- To fix this: go to index.ejs -> under allowed path script tag: add -> data:
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self' https: localhost:* data:; script-src 'unsafe-inline' 'unsafe-eval' https: localhost:*; connect-src https: localhost:* ws://localhost:*; style-src 'unsafe-inline' https:; object-src 'none';">
+
+Creating nav-bar component using react:
+---------------------------------------
+- Follow the same steps above for creating react APP.
